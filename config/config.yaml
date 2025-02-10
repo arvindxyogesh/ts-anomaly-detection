@@ -1,0 +1,32 @@
+data:
+  path: data/sensor_data.csv
+  feature_cols: [temperature, pressure, vibration]
+  label_col: is_anomaly
+  n_features: 3
+  train_ratio: 0.7          # fraction of data without anomalies for training
+
+detection:
+  seq_len: 20               # window size for AE and IF
+
+autoencoder:
+  hidden_size: 32
+  num_layers: 1
+  epochs: 50
+  batch_size: 64
+  lr: 0.001
+  threshold_sigma: 3.0      # mean + k*std on training reconstruction errors
+
+isolation_forest:
+  n_estimators: 200
+  contamination: 0.05
+
+statistical:
+  zscore_window: 50
+  zscore_threshold: 3.0
+  iqr_window: 100
+  iqr_k: 1.5
+  mad_window: 50
+  mad_threshold: 3.5
+
+logging:
+  level: INFO
